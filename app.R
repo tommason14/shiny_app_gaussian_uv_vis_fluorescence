@@ -7,7 +7,8 @@ ui <- fluidPage(
         sidebarPanel(
             fileInput('file', 'Choose log file',
                       accept=c('text/plain',
-                               '.log'))
+                               '.log')),
+            numericInput('sigma', 'Sigma value', value=0.05)
         ),
         mainPanel(
             plotOutput('uvPlot'),
@@ -114,7 +115,7 @@ server <- function(input, output) {
                    Wavelength = waves, 
                    Intensity = osc) %>% 
             tail(nstates) %>% 
-            add_gaussians() %>% 
+            add_gaussians(input$sigma) %>% 
             plot_gaussians()
     })
     
